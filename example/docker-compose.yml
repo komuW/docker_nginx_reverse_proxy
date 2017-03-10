@@ -3,12 +3,18 @@ services:
   mynginx:
     image: komuw/docker_nginx_reverse_proxy:v1
     links:
-      - myredis:myredis
+      - myapp:myapp
+    volumes_from:
+      - myapp
     ports:
       - 80:80
     environment:
-      - UPSTREAM_NAME=myredis
-      - UPSTREAM_PORT=6379
+      - UPSTREAM_NAME=myapp
+      - UPSTREAM_PORT=9090
+      - UPSTREAM_STATICFILE_LOCATION=/usr/src/app/static
 
-  myredis:
-    image: redis:3.0
+  myapp:
+    image: python:3.5-alpine
+    command: python -m SimpleHTTPServer 9090
+    volumes:
+      - ./:/usr/src/app

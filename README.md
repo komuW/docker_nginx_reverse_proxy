@@ -16,15 +16,23 @@ $ cat docker-compose.yml
 &nbsp;&nbsp;&nbsp;&nbsp;`mynginx:`                                   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`image: komuw/docker_nginx_reverse_proxy:v1`                              
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`links:`                       
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- myredis:myredis`                      
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- myapp:myapp`                      
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`volumes_from:`                           
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- myapp` 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ports:`                              
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- 80:80`                      
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`environment:`                         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- UPSTREAM_NAME=myredis`                     
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- UPSTREAM_PORT=6379`                        
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- UPSTREAM_NAME=myapp`                     
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- UPSTREAM_PORT=6379`             
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- UPSTREAM_STATICFILE_LOCATION=/usr/src/app/static`             
 
-&nbsp;&nbsp;&nbsp;&nbsp;`myredis:`                                 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`image: redis:3.0`                               
+
+&nbsp;&nbsp;&nbsp;&nbsp;`myapp:`                                 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`image: python:3.5-alpine`                               
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`command: python -m SimpleHTTPServer 9090`                 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`volumes:`                     
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- ./:/usr/src/app`                                             
+
 
 $ docker-compose up 
 
@@ -38,7 +46,7 @@ UPSTREAM_NAME=web
 UPSTREAM_PORT=3000                                  
 WORKER_PROCESSES=2                                  
 WORKER_CONNECTIONS=1024                                  
-UPSTREAM_SRC_LOCATION=/app/upstream/src                                  
+ENV UPSTREAM_STATICFILE_LOCATION=/app/upstream/src/static                                 
 
 NGINX_PORT - the port at which you want nginx to listen on inside the container                                  
 NGINX_CACHE_DIR - the location of the nginx cache                                  
@@ -47,7 +55,7 @@ UPSTREAM_PORT - the port where the app/service/container is listening on. This i
     for that reason, that container need to be linked into the docker_nginx_reverse_proxy conatiner.                                  
 WORKER_PROCESSES - number of nginx worker processes[1]                                  
 WORKER_CONNECTIONS - number of nginx worker connections[2]                                  
-UPSTREAM_SRC_LOCATION - the location inside the docker_nginx_reverse_proxy container where the source of the current directory will be saved in.                                  
+ENV UPSTREAM_STATICFILE_LOCATION - the location of staticfiles(css, js etc) inside the upstream container.                                  
 
 
 # usage:                                   

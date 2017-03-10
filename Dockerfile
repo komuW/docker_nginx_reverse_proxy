@@ -9,12 +9,10 @@ ENV UPSTREAM_NAME=web
 ENV UPSTREAM_PORT=3000
 ENV WORKER_PROCESSES=2
 ENV WORKER_CONNECTIONS=1024
-ENV UPSTREAM_SRC_LOCATION=/app/upstream/src
+ENV UPSTREAM_STATICFILE_LOCATION=/app/upstream/src/static
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-ONBUILD ADD . $UPSTREAM_SRC_LOCATION
-
-CMD envsubst '${NGINX_PORT},${NGINX_CACHE_DIR},${NGINX_CACHE_NAME},${UPSTREAM_NAME},${UPSTREAM_PORT},${WORKER_PROCESSES},${WORKER_CONNECTIONS},${UPSTREAM_SRC_LOCATION}' < /etc/nginx/nginx.conf > /tmp/nginx.conf && \
+CMD envsubst '${NGINX_PORT},${NGINX_CACHE_DIR},${NGINX_CACHE_NAME},${UPSTREAM_NAME},${UPSTREAM_PORT},${WORKER_PROCESSES},${WORKER_CONNECTIONS},${UPSTREAM_STATICFILE_LOCATION}' < /etc/nginx/nginx.conf > /tmp/nginx.conf && \
               mv /tmp/nginx.conf /etc/nginx/nginx.conf && \
               nginx -g 'daemon off;'
