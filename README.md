@@ -14,7 +14,7 @@ $ cat docker-compose.yml
 `version: '2'`                             
 `services:`                       
 &nbsp;&nbsp;&nbsp;&nbsp;`mynginx:`                                   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`image: komuw/docker_nginx_reverse_proxy:v1`                              
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`image: komuw/docker_nginx_reverse_proxy`                              
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`links:`                       
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`- myapp:myapp`                      
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`volumes_from:`                           
