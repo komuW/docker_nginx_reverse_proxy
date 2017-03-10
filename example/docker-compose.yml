@@ -1,0 +1,14 @@
+version: '2'
+services:
+  mynginx:
+    image: komuw/docker_nginx_reverse_proxy:v1
+    links:
+      - myredis:myredis
+    ports:
+      - 80:80
+    environment:
+      - UPSTREAM_NAME=myredis
+      - UPSTREAM_PORT=6379
+
+  myredis:
+    image: redis:3.0
