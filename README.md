@@ -50,6 +50,10 @@ WORKER_CONNECTIONS - number of nginx worker connections[2]
 UPSTREAM_SRC_LOCATION - the location inside the docker_nginx_reverse_proxy container where the source of the current directory will be saved in.
 
 
-references:
+# usage: 
+$ docker run komuw/docker_nginx_reverse_proxy
+
+
+# references:
 1. http://nginx.org/en/docs/ngx_core_module.html#worker_processes
 2. http://nginx.org/en/docs/ngx_core_module.html#worker_connections
