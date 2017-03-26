@@ -41,6 +41,7 @@ $ docker-compose up
 
 The enviroment variables that you can define(with their default values) are;            
 NGINX_PORT=80                                  
+NGINX_EXPOSED_PORT=80                 
 NGINX_CACHE_DIR=/etc/nginx/cache_dir                                  
 NGINX_CACHE_NAME=my_nginx_cache                                  
 UPSTREAM_NAME=web                                  
