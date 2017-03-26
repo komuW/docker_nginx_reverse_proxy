@@ -48,7 +48,8 @@ WORKER_PROCESSES=2
 WORKER_CONNECTIONS=1024                                  
 ENV UPSTREAM_STATICFILE_LOCATION=/app/upstream/src/static                                 
 
-NGINX_PORT - the port at which you want nginx to listen on inside the container                                  
+NGINX_PORT - the port at which you want nginx to listen on inside the container       
+NGINX_EXPOSED_PORT - the port on the host that nginx is exposed at                                       
 NGINX_CACHE_DIR - the location of the nginx cache                                  
 NGINX_CACHE_NAME - nginx cache name                                  
 UPSTREAM_PORT - the port where the app/service/container is listening on. This is the port inside that container and not the port that is mapped to on the host.                                   
