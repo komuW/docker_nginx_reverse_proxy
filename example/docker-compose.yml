@@ -1,20 +1,21 @@
 version: '2'
 services:
   mynginx:
-    image: komuw/docker_nginx_reverse_proxy:v1
+    image: komuw/docker_nginx_reverse_proxy
     links:
       - myapp:myapp
     volumes_from:
       - myapp
     ports:
-      - 80:80
+      - 9898:80
     environment:
       - UPSTREAM_NAME=myapp
       - UPSTREAM_PORT=9090
+      - NGINX_EXPOSED_PORT=9898
       - UPSTREAM_STATICFILE_LOCATION=/usr/src/app/static
 
   myapp:
-    image: python:3.5-alpine
+    image: python:2.7-alpine
     command: python -m SimpleHTTPServer 9090
     volumes:
       - ./:/usr/src/app
